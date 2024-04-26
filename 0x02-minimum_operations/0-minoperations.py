@@ -11,9 +11,9 @@ def minOperations(n):
         operations needed to result in exactly n H
         characters in this file.
     """
-    pasted_chars = 1 
-    clipboard = 0  
-    counter = 0  
+    pasted_chars = 1
+    clipboard = 0
+    counter = 0
 
     while pasted_chars < n:
         if clipboard == 0:
@@ -41,4 +41,3 @@ def minOperations(n):
         return counter
     else:
         return 0
-
