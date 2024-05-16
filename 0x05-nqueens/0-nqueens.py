@@ -4,19 +4,19 @@
 import sys
 
 
-slts = []
-"""The list of solutions to the N queens problem.
+solutions = []
+"""The list of possible solutions
 """
 n = 0
-"""The size
+"""The size of the chessboard.
 """
-possib = None
-"""The list of possible positions on the chessboard.
+pos = None
+"""The list of possible positions
 """
 
 
 def get_input():
-    """Validates the program's argument.
+    """Retrieves and validates this program's argument.
     """
     global n
     n = 0
@@ -34,24 +34,23 @@ def get_input():
     return n
 
 
-def is_attacking(possib0, possib1):
+def is_attacking(pos0, pos1):
     """Checks if the positions of two queens are in an attacking mode.
     """
-    if (possib0[0] == possib1[0]) or (possib0[1] == possib1[1]):
+    if (pos0[0] == pos1[0]) or (pos0[1] == pos1[1]):
         return True
-    return abs(possib0[0] - possib1[0]) == abs(possib0[1] - possib1[1])
+    return abs(pos0[0] - pos1[0]) == abs(pos0[1] - pos1[1])
 
 
 def group_exists(group):
     """Checks if a group exists in the list of solutions.
     """
-    global slts
-    for stn in slts:
+    global solutions
+    for stn in solutions:
         i = 0
-        for stn_possib in stn:
-            for grp_possib in group:
-                if stn_possib[0] == grp_possib[0]
-                and stn_possib[1] == grp_possib[1]:
+        for stn_pos in stn:
+            for grp_pos in group:
+                if stn_pos[0] == grp_pos[0] and stn_pos[1] == grp_pos[1]:
                     i += 1
         if i == n:
             return True
@@ -61,35 +60,34 @@ def group_exists(group):
 def build_solution(row, group):
     """Builds a solution for the n queens problem.
     """
-    global slts
+    global solutions
     global n
     if row == n:
         tmp0 = group.copy()
         if not group_exists(tmp0):
-            slts.append(tmp0)
+            solutions.append(tmp0)
     else:
-        for colum in range(n):
-            b = (row * n) + colum
-            matches = zip(list([possib[b]]) * len(group), group)
-            used_possibitions =
-            map(lambda x: is_attacking(x[0], x[1]), matches)
-            group.append(possib[b].copy())
-            if not any(used_possibitions):
+        for col in range(n):
+            a = (row * n) + col
+            matches = zip(list([pos[a]]) * len(group), group)
+            used_positions = map(lambda x: is_attacking(x[0], x[1]), matches)
+            group.append(pos[a].copy())
+            if not any(used_positions):
                 build_solution(row + 1, group)
             group.pop(len(group) - 1)
 
 
-def get_slts():
-    """Gets the solutions for the given size.
+def get_solutions():
+    """Gets the solutions for the given chessboard size.
     """
-    global possib, n
-    possib = list(map(lambda x: [x // n, x % n], range(n ** 2)))
-    b = 0
+    global pos, n
+    pos = list(map(lambda x: [x // n, x % n], range(n ** 2)))
+    a = 0
     group = []
-    build_solution(b, group)
+    build_solution(a, group)
 
 
 n = get_input()
-get_slts()
-for solution in slts:
+get_solutions()
+for solution in solutions:
     print(solution)
